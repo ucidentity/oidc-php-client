@@ -11,8 +11,8 @@ You can specify the following environment variables to control how the PHP appli
 ```shell
 ISSUER="https://auth.berkeley.edu/cas/oidc"
 CID=client_name
-SECRET=**********
-SERVER_CA_PATH=
+SECRET="**********"
+SERVER_CA_PATH="/path/to/cert"
 UPGRADE_HTTP=false
 REDIRECT_URL="http://localhost/index.php"
 ```

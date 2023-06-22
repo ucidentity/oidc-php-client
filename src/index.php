@@ -16,6 +16,9 @@ $oidc->setHttpUpgradeInsecureRequests($upgrade_insecure_http_requests);
 # else if above it true we need
 #$oidc->setCertPath('/path/to/my.cert');
 
+$oidc->setVerifyHost($verify_host);
+$oidc->setVerifyPeer($verify_peer);
+
 # add scopes based on config
 $oidc->addScope('openid');
 $oidc->addScope('profile');

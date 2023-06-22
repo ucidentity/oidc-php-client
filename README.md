@@ -12,9 +12,10 @@ You can specify the following environment variables to control how the PHP appli
 ISSUER="https://auth.berkeley.edu/cas/oidc"
 CID=client_name
 SECRET="**********"
-SERVER_CA_PATH="/path/to/cert"
-UPGRADE_HTTP=false
+UPGRADE_HTTP=true/false
 REDIRECT_URL="http://localhost/index.php"
+VERIFY_HOST=true/false
+VERIFY_PEER=true/false
 ```
 
 ## Running

@@ -1,0 +1,19 @@
+---
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "jonnyt"
+    reviewers:
+      - "jonnyt"
+  - package-ecosystem: "composer"
+    directory: "/src"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "jonnyt"
+    reviewers:
+      - "jonnyt"

@@ -1,4 +1,4 @@
-FROM php:8.2.7-apache
+FROM php:8.2.8-apache
 
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y wget

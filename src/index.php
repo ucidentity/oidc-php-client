@@ -1,47 +1,16 @@
 <?php
+session_start();
 
-// Load our settings
-require_once 'config.php';
-
-// Autoload classes
-require 'vendor/autoload.php';
-
-use Jumbojett\OpenIDConnectClient;
-
-$oidc = new Jumbojett\OpenIDConnectClient($issuer, $cid, $secret);
-
-# make this configurable - we want this when behind a proxy
-$oidc->setHttpUpgradeInsecureRequests($upgrade_insecure_http_requests);
-
-# else if above it true we need
-#$oidc->setCertPath('/path/to/my.cert');
-
-$oidc->setVerifyHost($verify_host);
-$oidc->setVerifyPeer($verify_peer);
-
-# add scopes based on config
-$oidc->addScope('openid');
-$oidc->addScope('profile');
-$oidc->addScope('berkeley_edu_default');
-$oidc->setRedirectURL($redirect_url);
-$oidc->authenticate();
-
-try {
-  $info = $oidc->requestUserInfo();
-  $id = $oidc->requestUserInfo('id');
-  $sub = $oidc->requestUserInfo('sub');
-  $attrs = array();
-  foreach($info->attributes as $key=> $value) {
-      if(is_array($value)){
-              $v = implode(', ', $value);
-      }else{
-              $v = $value;
-      }
-      $attrs[$key] = $v;
-  }
-} catch (\Jumbojett\OpenIDConnectClientException $e) {
-  echo $e;
+if (isset($_SESSION['id']) AND isset($_SESSION['sub']) AND isset($_SESSION['attrs'])) {
+  $id = $_SESSION['id'];
+  $sub = $_SESSION['sub'];
+  $attrs = $_SESSION['attrs'];
+} else {
+  $_SESSION['return'] = 'index.php';
+  header('Location: auth.php');
+  die();
 }
+
 ?>
 
 <!DOCTYPE html>

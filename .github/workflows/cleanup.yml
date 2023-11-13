@@ -19,7 +19,7 @@
         steps:
           - name: cleanup old images
             id: cleanup
-            uses: snok/container-retention-policy@04c70fd030033036d69c0057e0d125bf25820544
+            uses: snok/container-retention-policy@3d27e6a0361deed0b7dc5099a82eadd07924b177
             with:
               image-names: ${{ env.IMAGE_NAME }}
               cut-off: "5 minutes ago UTC"

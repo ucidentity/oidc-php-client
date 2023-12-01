@@ -5,6 +5,9 @@ on:
     tags:
       - 'v**'
   workflow_dispatch:
+  schedule:
+    - cron: '08 17 8-14 * 2'  # Second Tuesday of the month at 9:08 am
+
 env:
   REGISTRY: ghcr.io
   #IMAGE_NAME: ${{ github.repository }}
@@ -39,11 +42,12 @@ jobs:
               type=semver,pattern={{version}}
               type=semver,pattern={{major}}.{{minor}}
 
-
       - name: Build and push container image
-        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

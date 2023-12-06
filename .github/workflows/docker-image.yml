@@ -6,21 +6,56 @@ on:
       - 'v**'
   workflow_dispatch:
   schedule:
-    - cron: '08 17 8-14 * 2'  # Second Tuesday of the month at 9:08 am
+    - cron: '20 17 * * 2'  # Every Tuesday of the month at 9:20 am
 
 env:
   REGISTRY: ghcr.io
-  #IMAGE_NAME: ${{ github.repository }}
   IMAGE_NAME: oidc-php-client
+  BASE_IMAGE_DOCKERFILE: ./Dockerfile
 
 jobs:
 
+  check:
+    runs-on: ubuntu-latest
+
+    outputs:
+      differs: ${{ steps.check.outputs.differs }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set base image
+        run: |
+          echo "BASE_IMAGE=$(grep 'FROM' ${{ env.BASE_IMAGE_DOCKERFILE}} | awk '{print $2}')" >> "$GITHUB_ENV"
+
+      - name: Debug
+        run: |
+          echo ${{ env.BASE_IMAGE }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    
+      - name: Check if update available
+        id: check
+        uses: ClementTsang/docker-check-base-image-diff@d8cf79d3bcda38fab44bc8c9afa60c4b3dee23de
+        with:
+          base-image: docker://${{ env.BASE_IMAGE }}
+          derived-image: docker://${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}
+
   publish:
+    needs: check
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
+    # When invoked by schedule, only build if the base image is out of date
+    if: ${{ needs.check.outputs.differs == 'true' ||  github.event_name != 'schedule' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,7 +69,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for container
         id: meta
-        uses: docker/metadata-action@31cebacef4805868f9ce9a0cb03ee36c32df2ac4
+        uses: docker/metadata-action@e6428a5c4e294a61438ed7f43155db912025b6b3
         with:
           images: ${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

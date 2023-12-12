@@ -7,7 +7,7 @@
         - cron:  '0 21 * * *'
       workflow_dispatch:
     env:
-      IMAGE_NAME: "oidc-php-client"
+      IMAGE_NAME: ${{ github.repository }}
       SUCCESS_ICON: ":white_check_mark:"
       ERROR_ICON: ":exclamation:"
       INFO_ICON: ":information_source:"
@@ -28,7 +28,8 @@
               org-name: ucidentity
               keep-at-least: 3
               skip-tags: latest
-              token: ${{ secrets.CALNET_AUTOMATION_PACKAGE_DELETE }}
+              token: ${{ secrets.GITHUB_TOKEN }}
+              token-type: github-token
               
           - name: Send Slack message if images have been deleted
             id: slack

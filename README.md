@@ -13,7 +13,7 @@ ISSUER="https://auth.berkeley.edu/cas/oidc"
 CID=client_name
 SECRET="**********"
 UPGRADE_HTTP=true/false
-REDIRECT_URL="http://localhost/index.php"
+REDIRECT_URL="http://localhost/auth.php"
 VERIFY_HOST=true/false
 VERIFY_PEER=true/false
 ```
@@ -38,7 +38,7 @@ With env vars
 docker run --rm \
     --publish 80:80 \
     --env ISSUER="https://auth-dev.calnet.berkeley.edu/cas/oidc" \
-    --env REDIRECT_URL="http://localhost" \
+    --env REDIRECT_URL="http://localhost/auth.php" \
     --env UPGRADE_HTTP=false \
     --env CID="client" \
     --env SECRET=$OIDC_SECRET \

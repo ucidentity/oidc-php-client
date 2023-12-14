@@ -6,7 +6,7 @@ $cid = 'client';
 $secret = 'secret';
 $cert_path = '/path/to/my.cert';
 $upgrade_insecure_http_requests = true;
-$redirect_url = 'http://localhost/index.php';
+$redirect_url = 'http://localhost/auth.php';
 $verify_host = true;
 $verify_peer = true;
 

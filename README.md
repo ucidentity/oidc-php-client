@@ -47,3 +47,19 @@ docker run --rm \
 ```
 
 Go to http://localhost
+
+Another example using a local CAS host
+
+```shell
+docker run --rm \
+    --publish 8000:80 \
+    --env ISSUER="https://cas-host:8443/cas/oidc" \
+    --env REDIRECT_URL="http://oidc-client:8000/auth.php" \
+    --env UPGRADE_HTTP=false \
+    --env CID="client" \
+    --env SECRET="password" \
+    --name oidc-client \
+    oidc-php-client:latest
+```
+
+Go to http://localhost:8000

@@ -25,16 +25,16 @@ foreach (getenv() as $key => $value) {
         $cert_path = $value;
     }
     if ($key == 'UPGRADE_HTTP') {
-        $upgrade_insecure_http_requests = (bool)$value;
+        $upgrade_insecure_http_requests = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
     if ($key == 'REDIRECT_URL') {
         $redirect_url = $value;
     }
     if ($key == 'VERIFY_HOST') {
-        $verify_host = (bool)$value;
+        $verify_host = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
     if ($key == 'VERIFY_PEER') {
-        $verify_peer = (bool)$value;
+        $verify_peer = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 }
 

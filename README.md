@@ -63,3 +63,11 @@ docker run --rm \
 ```
 
 Go to http://localhost:8000
+
+## Troubleshooting
+
+The following generally means there is a mismatch between the client ID and/or client secret between the SP and RP
+
+```
+( ! ) Fatal error: Uncaught TypeError: property_exists(): Argument #1 ($object_or_class) must be of type object|string, null given in /var/www/html/vendor/jumbojett/openid-connect-php/src/OpenIDConnectClient.php on line 330
+```

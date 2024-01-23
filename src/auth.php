@@ -22,9 +22,7 @@ $oidc->setVerifyHost($verify_host);
 $oidc->setVerifyPeer($verify_peer);
 
 # add scopes based on config
-$oidc->addScope('openid');
-$oidc->addScope('profile');
-$oidc->addScope('berkeley_edu_default');
+$oidc->addScope(['openid','profile','berkeley_edu_default']);
 $oidc->setRedirectURL($redirect_url);
 
 # set the code challenge to ensure we use PKCE

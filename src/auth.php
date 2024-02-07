@@ -30,6 +30,8 @@ $oidc->setCodeChallengeMethod('S256');
 $oidc->authenticate();
 
 try {
+  $accessToken = $oidc->getAccessToken();
+  $idToken = $oidc->getIdTokenPayload();
   $info = $oidc->requestUserInfo();
   $id = $oidc->requestUserInfo('id');
   $sub = $oidc->requestUserInfo('sub');
@@ -42,6 +44,14 @@ try {
       }
       $attrs[$key] = $v;
   }
+  
+  $object = new stdClass();
+  $object->access_token = $accessToken;
+  $object->id_token = $idToken;
+  $object->userInfo = $info;
+  $jsonResp = json_encode($object, JSON_PRETTY_PRINT);
+
+
 } catch (\Jumbojett\OpenIDConnectClientException $e) {
   echo $e;
 }
@@ -49,6 +59,7 @@ try {
 $_SESSION['id'] = $id;
 $_SESSION['sub'] = $sub;
 $_SESSION['attrs'] = $attrs;
+$_SESSION['jsonResp'] = $jsonResp;
 
 if (isset($_SESSION['return'])) {
   # Redirect to remove the OIDC code

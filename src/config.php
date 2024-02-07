@@ -9,6 +9,7 @@ $upgrade_insecure_http_requests = true;
 $redirect_url = 'http://localhost/auth.php';
 $verify_host = true;
 $verify_peer = true;
+$return_json = false;
 
 // Override defaults
 foreach (getenv() as $key => $value) {
@@ -35,6 +36,9 @@ foreach (getenv() as $key => $value) {
     }
     if ($key == 'VERIFY_PEER') {
         $verify_peer = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+    if ($key == 'RETURN_JSON') {
+        $return_json = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 }
 

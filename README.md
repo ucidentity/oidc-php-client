@@ -64,6 +64,22 @@ docker run --rm \
 
 Go to http://localhost:8000
 
+Example overriding default Apache configuration
+
+```shell
+docker run --rm \
+    --publish 8000:8000 \
+    -v ./apache2/ports.conf:/etc/apache2/ports.conf \
+    -v ./apache2/000-default.conf:/etc/apache2/sites-enabled/000-default.conf \
+    --env ISSUER="https://cas-host:8443/cas/oidc" \
+    --env REDIRECT_URL="http://oidc-client:8000/auth.php" \
+    --env UPGRADE_HTTP=false \
+    --env CID="client" \
+    --env SECRET="password" \
+    --name oidc-client \
+    oidc-php-client:latest
+```
+
 ## Troubleshooting
 
 The following generally means there is a mismatch between the client ID and/or client secret between the SP and RP

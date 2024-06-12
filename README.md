@@ -16,6 +16,7 @@ UPGRADE_HTTP=true/false
 REDIRECT_URL="http://localhost/auth.php"
 VERIFY_HOST=true/false
 VERIFY_PEER=true/false
+SCOPES="openid,profile,berkeley_edu_default"
 ```
 
 ## Running
@@ -76,7 +77,27 @@ docker run --rm \
     --env UPGRADE_HTTP=false \
     --env CID="client" \
     --env SECRET="password" \
+    --env SCOPES="openid,profile,berkeley_edu_default,berkeley_edu_employee_number"
     --name oidc-client \
+    oidc-php-client:latest
+```
+
+Example with local networks
+
+```shell
+docker run --rm \
+    --publish 80:80 \
+    --env ISSUER="https://cas-host:8443/cas/oidc" \
+    --env REDIRECT_URL="http://oidc-client/auth.php" \
+    --env UPGRADE_HTTP="false" \
+    --env CID="client" \
+    --env SECRET="secret" \
+    --env UPGRADE_HTTP="false" \
+    --env VERIFY_HOST="false" \
+    --env VERIFY_PEER="false" \
+    --env SCOPES="openid,profile,berkeley_edu_default,berkeley_edu_employee_number"
+    --name oidc-client \
+    --network cas-test \
     oidc-php-client:latest
 ```
 

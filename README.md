@@ -95,7 +95,22 @@ docker run --rm \
     --env UPGRADE_HTTP="false" \
     --env VERIFY_HOST="false" \
     --env VERIFY_PEER="false" \
-    --env SCOPES="openid,profile,berkeley_edu_default,berkeley_edu_employee_number"
+    --env SCOPES="openid,profile,berkeley_edu_default,berkeley_edu_employee_number" \
+    --name oidc-client \
+    --network cas-test \
+    oidc-php-client:latest
+
+docker run --rm \
+    --publish 80:80 \
+    --env ISSUER="https://cas-host:8443/cas/oidc" \
+    --env REDIRECT_URL="http://oidc-client/index.php" \
+    --env UPGRADE_HTTP="false" \
+    --env CID="client" \
+    --env SECRET="secret" \
+    --env UPGRADE_HTTP="false" \
+    --env VERIFY_HOST="false" \
+    --env VERIFY_PEER="false" \
+    --env SCOPES="openid,profile,berkeley_edu_default,berkeley_edu_employee_number" \
     --name oidc-client \
     --network cas-test \
     oidc-php-client:latest

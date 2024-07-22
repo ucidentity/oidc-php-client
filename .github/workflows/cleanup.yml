@@ -25,7 +25,7 @@
               cut-off: "5m"
               timestamp-to-use: updated_at
               account: ucidentity
-              keep-at-least: 3
+              keep-n-most-recent: 3
               image-tags: "!latest"
               token: ${{ secrets.GITHUB_TOKEN }}
               

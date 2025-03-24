@@ -13,7 +13,7 @@ ISSUER="https://auth.berkeley.edu/cas/oidc"
 CID=client_name
 SECRET="**********"
 UPGRADE_HTTP=true/false
-REDIRECT_URL="http://localhost/auth.php"
+REDIRECT_URL="http://localhost"
 VERIFY_HOST=true/false
 VERIFY_PEER=true/false
 SCOPES="openid,profile,berkeley_edu_default"
@@ -39,7 +39,7 @@ With env vars
 docker run --rm \
     --publish 80:80 \
     --env ISSUER="https://auth-dev.calnet.berkeley.edu/cas/oidc" \
-    --env REDIRECT_URL="http://localhost/auth.php" \
+    --env REDIRECT_URL="http://localhost" \
     --env UPGRADE_HTTP=false \
     --env CID="client" \
     --env SECRET=$OIDC_SECRET \
@@ -55,7 +55,7 @@ Another example using a local CAS host
 docker run --rm \
     --publish 8000:80 \
     --env ISSUER="https://cas-host:8443/cas/oidc" \
-    --env REDIRECT_URL="http://oidc-client:8000/auth.php" \
+    --env REDIRECT_URL="http://oidc-client:8000" \
     --env UPGRADE_HTTP=false \
     --env CID="client" \
     --env SECRET="password" \
@@ -73,7 +73,7 @@ docker run --rm \
     -v ./apache2/ports.conf:/etc/apache2/ports.conf \
     -v ./apache2/000-default.conf:/etc/apache2/sites-enabled/000-default.conf \
     --env ISSUER="https://cas-host:8443/cas/oidc" \
-    --env REDIRECT_URL="http://oidc-client:8000/auth.php" \
+    --env REDIRECT_URL="http://oidc-client:8000" \
     --env UPGRADE_HTTP=false \
     --env CID="client" \
     --env SECRET="password" \
@@ -88,7 +88,7 @@ Example with local networks
 docker run --rm \
     --publish 80:80 \
     --env ISSUER="https://cas-host:8443/cas/oidc" \
-    --env REDIRECT_URL="http://oidc-client/auth.php" \
+    --env REDIRECT_URL="http://oidc-client" \
     --env UPGRADE_HTTP="false" \
     --env CID="client" \
     --env SECRET="secret" \
@@ -103,7 +103,7 @@ docker run --rm \
 docker run --rm \
     --publish 80:80 \
     --env ISSUER="https://cas-host:8443/cas/oidc" \
-    --env REDIRECT_URL="http://oidc-client/index.php" \
+    --env REDIRECT_URL="http://oidc-client" \
     --env UPGRADE_HTTP="false" \
     --env CID="client" \
     --env SECRET="secret" \

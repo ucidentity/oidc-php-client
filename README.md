@@ -16,6 +16,7 @@ UPGRADE_HTTP=true/false
 REDIRECT_URL="http://localhost"
 VERIFY_HOST=true/false
 VERIFY_PEER=true/false
+PKCE=true/false
 SCOPES="openid,profile,berkeley_edu_default"
 ```
 

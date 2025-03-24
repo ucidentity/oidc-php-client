@@ -28,8 +28,10 @@ $oidc->setVerifyPeer($verify_peer);
 $oidc->addScope($scopes);
 $oidc->setRedirectURL($redirect_url);
 
-# set the code challenge to ensure we use PKCE
-$oidc->setCodeChallengeMethod('S256');
+if($pkce === true){
+    # set the code challenge to ensure we use PKCE
+    $oidc->setCodeChallengeMethod('S256');
+}
 
 // Check for the authorization code in the URL
 if (isset($_GET['code'])) {

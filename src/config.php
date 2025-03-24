@@ -10,6 +10,7 @@ $redirect_url = 'http://localhost/auth.php';
 $verify_host = true;
 $verify_peer = true;
 $return_json = false;
+$pkce = true;
 $scopes = ['openid','profile'];
 
 // Override defaults
@@ -40,6 +41,9 @@ foreach (getenv() as $key => $value) {
     }
     if ($key == 'RETURN_JSON') {
         $return_json = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+    if ($key == 'PKCE') {
+        $pkce = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
     if ($key == 'SCOPES') {
         $scopes = explode(',', $value);

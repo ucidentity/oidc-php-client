@@ -31,7 +31,7 @@
               
           - name: Send Slack message if images have been deleted
             id: slack
-            uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d
+            uses: slackapi/slack-github-action@b0fa283ad8fea605de13dc3f449259339835fc52
             with:
               webhook: ${{ secrets.CALNET_SLACK_GHA_WEBHOOK_URL }}
               webhook-type: webhook-trigger

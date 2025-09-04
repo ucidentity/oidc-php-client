@@ -7,10 +7,10 @@ RUN apt-get update && apt-get -y upgrade && \
     rm -fr /tmp/* /var/tmp/*
 
 # Uncomment below for debug config
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-COPY ./conf.d/error_reporting.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN pecl install xdebug \
+#     && docker-php-ext-enable xdebug
+# COPY ./conf.d/error_reporting.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Set up php composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \

@@ -8,6 +8,10 @@ updates:
       interval: "weekly"
     assignees:
       - "jonnyt"
+    ignore:
+      # ignore 8.4 until OIDC library library supports it
+      - dependency-name: "php"
+        versions: [">= 8.4"]
 
   # PHP dependencies
   - package-ecosystem: "composer"

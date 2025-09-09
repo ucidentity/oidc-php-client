@@ -40,12 +40,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
     
-#      - name: Check if update available
-#        id: check
-#        uses: ClementTsang/docker-check-base-image-diff@d8cf79d3bcda38fab44bc8c9afa60c4b3dee23de
-#        with:
-#          base-image: docker://${{ env.BASE_IMAGE }}
-#          derived-image: docker://${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}
+      - name: Check if update available
+        id: check
+        uses: ClementTsang/docker-check-base-image-diff@d8cf79d3bcda38fab44bc8c9afa60c4b3dee23de
+        with:
+          base-image: docker://${{ env.BASE_IMAGE }}
+          derived-image: docker://${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}
 
   publish:
     needs: check
@@ -55,7 +55,7 @@ jobs:
       packages: write
 
     # When invoked by schedule, only build if the base image is out of date
-    #if: ${{ needs.check.outputs.differs == 'true' ||  github.event_name != 'schedule' }}
+    if: ${{ needs.check.outputs.differs == 'true' ||  github.event_name != 'schedule' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

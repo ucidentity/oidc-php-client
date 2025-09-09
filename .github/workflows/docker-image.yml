@@ -5,8 +5,6 @@ on:
     tags:
       - 'v**'
   workflow_dispatch:
-  schedule:
-    - cron: '20 17 * * 2'  # Every Tuesday of the month at 9:20 am
 
 env:
   REGISTRY: ghcr.io
@@ -15,47 +13,12 @@ env:
 
 jobs:
 
-  check:
-    runs-on: ubuntu-latest
-
-    outputs:
-      differs: ${{ steps.check.outputs.differs }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set base image
-        run: |
-          echo "BASE_IMAGE=$(grep 'FROM' ${{ env.BASE_IMAGE_DOCKERFILE}} | awk '{print $2}')" >> "$GITHUB_ENV"
-
-      - name: Debug
-        run: |
-          echo ${{ env.BASE_IMAGE }}
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-    
-      - name: Check if update available
-        id: check
-        uses: ClementTsang/docker-check-base-image-diff@d8cf79d3bcda38fab44bc8c9afa60c4b3dee23de
-        with:
-          base-image: docker://${{ env.BASE_IMAGE }}
-          derived-image: docker://${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}
-
   publish:
-    needs: check
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
-    # When invoked by schedule, only build if the base image is out of date
-    if: ${{ needs.check.outputs.differs == 'true' ||  github.event_name != 'schedule' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

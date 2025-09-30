@@ -32,13 +32,14 @@ jobs:
 
       - name: Extract metadata (tags, labels) for container
         id: meta
-        uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          tags:
-              type=semver,pattern={{version}}
-              type=semver,pattern={{major}}.{{minor}}
+          tags: |
+            type=semver,pattern={{version}},latest=true
+            type=semver,pattern={{major}}.{{minor}}
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -52,7 +53,8 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ${{ steps.meta.outputs.tags }}
-            ${{ env.REGISTRY }}/ucidentity/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          annotations: ${{ steps.meta.outputs.annotations }}
           labels: ${{ steps.meta.outputs.labels }}
+          provenance: false # Disable provenance to avoid unknown/unknown
+          sbom: false       # Disable sbom to avoid unknown/unknown

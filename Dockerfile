@@ -1,4 +1,4 @@
-FROM php:8.3-apache@sha256:016eb69cc8cf5dc42a0f4f708e7dcb8b12d86eb2ebb402adfcfe39cf9ac71dbd
+FROM php:8.3-apache@sha256:d9bfe53cbe358ab5c43144991fb7b95ffb84180ae947a5e4dc3e7a095605742d
 
 RUN apt-get update && apt-get -y upgrade && \
     apt-get install -y wget && \

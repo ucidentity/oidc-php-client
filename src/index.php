@@ -5,68 +5,34 @@ use Jumbojett\OpenIDConnectClient;
 
 session_start();
 
-// Load our settings
-require_once 'config.php';
-
-// Configuration
-$clientId = 'your-client-id';
-$clientSecret = 'your-client-secret';
-$providerUrl = 'https://your-identity-provider.com';
-
-$oidc = new Jumbojett\OpenIDConnectClient($issuer, $cid, $secret);
-
-# make this configurable - we want this when behind a proxy
-$oidc->setHttpUpgradeInsecureRequests($upgrade_insecure_http_requests);
-
-# else if above it true we need
-#$oidc->setCertPath('/path/to/my.cert');
-
-$oidc->setVerifyHost($verify_host);
-$oidc->setVerifyPeer($verify_peer);
-
-# add scopes based on config
-$oidc->addScope($scopes);
-$oidc->setRedirectURL($redirect_url);
-
-if($pkce === true){
-    # set the code challenge to ensure we use PKCE
-    $oidc->setCodeChallengeMethod('S256');
-}
-
-// Check for the authorization code in the URL
-if (isset($_GET['code'])) {
-    try {
-        $oidc->authenticate();
-        $_SESSION['user'] = $oidc->getVerifiedClaims();
-        $_SESSION['idToken'] = $oidc->getIdToken();
-        header('Location: index.php');
-        exit();
-    } catch (Exception $e) {
-        echo 'Failed to get user information: ' . $e->getMessage();
-        exit();
-    }
-}
-
-// Handle login
-if (isset($_GET['action']) && $_GET['action'] == 'login') {
-    $oidc->authenticate();
-    //$accessToken = $oidc->getAccessToken();
-    //$idToken = $oidc->getIdTokenPayload();
-    //$_SESSION['info'] = $info = $oidc->requestUserInfo();
-    $_SESSION['user'] = $oidc->getVerifiedClaims();
-    header('Location: index.php');
-    exit();
-}
-
 // Handle logout
 if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-    if (isset($_SESSION['user'])) {
+    if (isset($_SESSION['idToken'])) {
+        // Load config for logout
+        require_once 'config.php';
+
+        $oidc = new Jumbojett\OpenIDConnectClient($issuer, $cid, $secret);
+        $oidc->setHttpUpgradeInsecureRequests($upgrade_insecure_http_requests);
+        $oidc->setVerifyHost($verify_host);
+        $oidc->setVerifyPeer($verify_peer);
+
+        $idToken = $_SESSION['idToken'];
         session_destroy();
-        $oidc->signOut($_SESSION['idToken'],$redirect_url);
+        $oidc->signOut($idToken, $redirect_url);
     } else {
+        session_destroy();
         header('Location: index.php');
         exit();
     }
+}
+
+// Check authentication status
+if (isset($_SESSION['user']) && isset($_SESSION['idToken'])) {
+    // User is authenticated
+} else {
+    $_SESSION['return'] = 'index.php';
+    header('Location: auth.php');
+    die();
 }
 ?>
 
@@ -82,8 +48,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
     <?php if (isset($_SESSION['user'])): ?>
         <p>Welcome, <?php echo htmlspecialchars($_SESSION['user']->name); ?>!</p>
         <p><a href="?action=logout">Logout</a></p>
-    <?php else: ?>
-        <p><a href="?action=login">Login</a></p>
     <?php endif; ?>
     <p>debug info</p>
     <?php 

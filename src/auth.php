@@ -64,9 +64,16 @@ $_SESSION['sub'] = $sub;
 $_SESSION['attrs'] = $attrs;
 $_SESSION['jsonResp'] = $jsonResp;
 
+// Also set session variables for index.php compatibility
+$_SESSION['user'] = $oidc->getVerifiedClaims();
+$_SESSION['idToken'] = $oidc->getIdToken();
+
 if (isset($_SESSION['return'])) {
   # Redirect to remove the OIDC code
   header('Location: '.$_SESSION['return']);
+  die();
+} else {
+  header('Location: index.php');
   die();
 }
 

@@ -12,6 +12,11 @@ $verify_peer = true;
 $return_json = false;
 $pkce = true;
 $scopes = ['openid','profile'];
+// Use client_secret_post by default so credentials are sent only in the POST body.
+// This avoids the "multiple client credentials" error from Okta when PKCE is enabled
+// (client_secret_basic would put credentials in both the Authorization header and, due to
+// a jumbojett PKCE interaction, also in the POST body).
+$client_auth_method = 'client_secret_post';
 
 // Override defaults
 foreach (getenv() as $key => $value) {
@@ -48,6 +53,9 @@ foreach (getenv() as $key => $value) {
     if ($key == 'SCOPES') {
         $scopes = explode(',', $value);
         $scopes = array_map('trim', $scopes);
+    }
+    if ($key == 'CLIENT_AUTH_METHOD') {
+        $client_auth_method = str_replace('"','',$value);
     }
 }
 

@@ -51,8 +51,7 @@ foreach (getenv() as $key => $value) {
         $pkce = filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
     if ($key == 'SCOPES') {
-        $scopes = explode(',', $value);
-        $scopes = array_map('trim', $scopes);
+        $scopes = preg_split('/[\s,]+/', trim(str_replace('"', '', $value)), -1, PREG_SPLIT_NO_EMPTY);
     }
     if ($key == 'CLIENT_AUTH_METHOD') {
         $client_auth_method = str_replace('"','',$value);

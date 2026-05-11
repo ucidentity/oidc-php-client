@@ -8,6 +8,8 @@ updates:
       interval: "weekly"
     assignees:
       - "jonnyt"
+      - "griggs8"
+      - "xzhangberkeley"
     ignore:
       # ignore 8.4 until OIDC library library supports it
       - dependency-name: "php"
@@ -20,6 +22,8 @@ updates:
       interval: "weekly"
     assignees:
       - "jonnyt"
+      - "griggs8"
+      - "xzhangberkeley"
 
   # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
@@ -28,3 +32,5 @@ updates:
       interval: "weekly"
     assignees:
       - "jonnyt"
+      - "griggs8"
+      - "xzhangberkeley"

@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v**'
+      - '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
   workflow_dispatch:
 
 env:
@@ -38,6 +39,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}},latest=true
             type=semver,pattern={{major}}.{{minor}}
+            type=match,pattern=\d{8},latest=true
         env:
           #DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
           DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest

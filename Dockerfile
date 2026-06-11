@@ -1,8 +1,7 @@
 FROM php:8.3.31-apache@sha256:643e48a39b103e065736c39223910c16b27e7142d878ac2dd61159a3e7acd8de
 
 RUN apt-get update && apt-get -y upgrade && \
-    apt-get install -y wget && \
-    apt-get install -y git && \
+    apt-get install -y wget git unzip && \
     apt-get clean && \
     rm -fr /tmp/* /var/tmp/*
 

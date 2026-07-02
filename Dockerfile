@@ -1,4 +1,4 @@
-FROM php:8.3.31-apache@sha256:effb02fba2429e386624f0e01286ab94e104f86dc3f73bacac47d987f4c9d446
+FROM php:8.3.31-apache@sha256:759e57453c1f4957dde87cbb33e25842eb91dd5ce7a06e93cdb4b93508bc182a
 
 RUN apt-get update && apt-get -y upgrade && \
     apt-get install -y wget git unzip && \

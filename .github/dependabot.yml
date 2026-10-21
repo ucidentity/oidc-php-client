@@ -6,8 +6,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 0
     assignees:
-      - "jonnyt"
+      - "nanjb"
       - "griggs8"
       - "xzhangberkeley"
     ignore:
@@ -21,7 +23,7 @@ updates:
     schedule:
       interval: "weekly"
     assignees:
-      - "jonnyt"
+      - "nanjb"
       - "griggs8"
       - "xzhangberkeley"
 
@@ -31,6 +33,6 @@ updates:
     schedule:
       interval: "weekly"
     assignees:
-      - "jonnyt"
+      - "nanjb"
       - "griggs8"
       - "xzhangberkeley"
